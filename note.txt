@@ -1,0 +1,15 @@
+registered
+//make sure they provide email and p 
+//email hasnt been registered
+//protect user information
+//create the user
+
+password encryption
+//hashing Algorithms
+//salting Algorithms
+
+
+login
+email and password
+user has already been registered
+provide the correct email and password
