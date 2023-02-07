@@ -65,5 +65,17 @@ const login = async (req, res) => {
     }
 };
 
+const signup = (req, res) => {
+    res.status(200).render('signup', {title: 'Signup'})
+};
 
-module.exports = {register, login};
+const signin = (req, res) => {
+    res.status(200).render('login', {title: 'Login'})
+};
+
+
+const dashboard = (req, res) => {
+    res.status(200).render('dashboard', {title: 'Dashboard'})
+};
+
+module.exports = {register, login, signin, signup, dashboard};

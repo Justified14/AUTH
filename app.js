@@ -7,7 +7,7 @@ const notFound = require('./middleware/notFound')
 // const userRouter = require('./Route/userRouter')
 const newRouter = require('./Route/newUserRou')
 mongoose.set('strictQuery', true);
-
+app.set('view engine', 'ejs');
 
 app.use(express.json());
 
