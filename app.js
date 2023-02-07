@@ -4,13 +4,14 @@ const app = express();
 const PORT = 1001
 const mongoose = require('mongoose');
 const notFound = require('./middleware/notFound')
-const userRouter = require('./Route/userRouter')
+// const userRouter = require('./Route/userRouter')
+const newRouter = require('./Route/newUserRou')
 mongoose.set('strictQuery', true);
 
 
 app.use(express.json());
 
-app.use(userRouter)
+app.use(newRouter);
 
 //error handlers
 app.use(notFound)

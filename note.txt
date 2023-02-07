@@ -13,3 +13,10 @@ login
 email and password
 user has already been registered
 provide the correct email and password
+
+refactoring 
+error handling
+mongoose hooks(middleware)
+
+authentication(session based and token based )protecting route using authentication
+integrating ejs views
