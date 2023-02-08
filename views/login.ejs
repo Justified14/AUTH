@@ -5,12 +5,16 @@
     <%- include('./partials/nav.ejs') %>
     <div class="b">
         <h1>Login</h1>
-        <form action="/login" method="post">
+        <div class="emailErr">
+
+        </div>
+        <form>
             <div>
                 <label for="email">Email</label><br>
-                <input type="name" required id="name" name="name"/><br>
+                <input type="name" required id="email" name="email"/><br>
+               
                 <label for="password">Password</label><br>
-                <input type="text" required id="role" name="role"/><br>
+                <input type="password" required id="password" name="password"/><br>
             </div>
             <br>
             <div>
@@ -19,5 +23,29 @@
         </form>
 
     </div>
+    <script>
+        const form = document.querySelector('form');
+        const emailErr = document.querySelector('.emailErr');
+        const passwordErr = document.querySelector('.passwordErr');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = form.email.value;
+            const password = form.password.value;
+            const res = await fetch("/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({email, password}),
+            });
+            const result = await res.json();
+            if (result.success) {
+                location.assign("/dashboard")
+            }else {
+                emailErr.textContent = result.errors.email;
+                passwordErr.textContent = result.errors.password;
+            };
+        });
+    </script>
 </body>
 </html>
