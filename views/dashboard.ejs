@@ -2,13 +2,19 @@
 <html lang="en">
     <%- include('./partials/header.ejs') %>
 <body>
+
     <nav>
         <ul>
-            <h4><a href="/login">Logout</a></h4>
+            <h4><a href="/logout">Logout</a></h4>
         </ul>
     </nav>
+    
     <div class="b">
         <h1><marquee behavior="alternate" directon="">You Are Welcome To My Dashboard</marquee></h1>
     </div>
+
+    <% if(email){ %>
+        <h1>Welcome <%= email %> <%= dami %></h1>
+    <%} %>
 </body>
 </html>

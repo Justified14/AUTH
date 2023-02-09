@@ -1,31 +1,15 @@
 const Users = require('../model/user');
 const bcrypt = require('bcrypt');
+const handleErrors = require('../middleware/handleError')
+const jwt = require('jsonwebtoken');
 
 
-const handleErrors = (err) => {
-    //err messages err codes - 11000
-    let errors = {email: "", password: ""};
-    if (err.code === 11000) {
-        errors.email = 'Email is already in use'
-        return errors
-    }
-    if (err.message === 'User not registered yet'){
-        errors.email = 'This Email has not been registered'
-        return errors
-    }
-    if (err.message === 'Invalid email or password'){
-        errors.email = 'Invalid Email or Password'
-        errors.password = 'Invalid Email or Password'
-        return errors
-    }
-    if (err.message.includes('User validation failed')){
-        Object.values(err.errors).forEach(({properties}) => {
-            errors[properties.path] = properties.message;
-        });
-    };
 
-    return errors;
+const generateToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: "1h"})
 };
+
+
 
 
 const register = async (req, res) => {
@@ -54,6 +38,9 @@ const login = async (req, res) => {
         if (user) {
             const authenticated = await bcrypt.compare(password, user.password)
             if (authenticated) {
+                //token set
+                const token = generateToken(user._id)
+                res.cookie('jwt', token, {maxAge: 60 * 60 * 1000})
               return  res.status(200).json({success:true, data: user})
             }
             throw Error('Invalid email or password')
@@ -63,7 +50,7 @@ const login = async (req, res) => {
         const errors = handleErrors(error);
         res.status(400).json({success: false, errors});
     }
-};
+}
 
 const signup = (req, res) => {
     res.status(200).render('signup', {title: 'Signup'})
@@ -78,4 +65,10 @@ const dashboard = (req, res) => {
     res.status(200).render('dashboard', {title: 'Dashboard'})
 };
 
-module.exports = {register, login, signin, signup, dashboard};
+
+const logout = (req, res) => {
+    res.cookie('jwt', '', {maxAge: 1000})
+    res.redirect('/login')
+};
+
+module.exports = {register, login, signin, signup, dashboard, logout};
